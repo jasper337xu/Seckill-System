@@ -18,18 +18,20 @@
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
 
-        <!-- targetProject: the position where we generate po(persistent object) -->
+        <!-- targetProject: the location where po(persistent object) is generated -->
         <javaModelGenerator targetPackage="com.jasperxu.seckill.db.po"
                             targetProject="./src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
+        <!-- targetProject: the location where mapper XML files are generated -->
         <sqlMapGenerator targetPackage="mappers"
                          targetProject="./src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
+        <!-- targetProject: the location where mapper interfaces (CRUD operations) are generated -->
         <javaClientGenerator type="XMLMAPPER"
                              targetPackage="com.jasperxu.seckill.db.mappers"
                              targetProject="./src/main/java">
