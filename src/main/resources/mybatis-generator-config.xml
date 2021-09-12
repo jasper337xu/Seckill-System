@@ -9,10 +9,9 @@
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
 
-        <!--TODO: need to check jdbcConnection-->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/seckill_?serverTimezone=GMT" userId="root"
-                        password="root">
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/seckill_db" userId="jasperxu"
+                        password="jasperxu">
         </jdbcConnection>
 
         <javaTypeResolver>
@@ -37,7 +36,6 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <!--TODO: need to check-->
         <table schema="" tableName="seckill_activity" domainObjectName="SeckillActivity"  enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">
         </table>
