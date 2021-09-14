@@ -2,6 +2,8 @@ package com.jasperxu.seckill.db.mappers;
 
 import com.jasperxu.seckill.db.po.SeckillActivity;
 
+import java.util.List;
+
 public interface SeckillActivityMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +16,6 @@ public interface SeckillActivityMapper {
     int updateByPrimaryKeySelective(SeckillActivity record);
 
     int updateByPrimaryKey(SeckillActivity record);
+
+    List<SeckillActivity> querySeckillActivitiesByStatus(int activityStatus);
 }
