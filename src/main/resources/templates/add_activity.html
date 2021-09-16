@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <title>Seckill Promotion Activity</title>
+</head>
+
+<body>
+<div>
+    <ul>
+        <li><a href="login.html" target="_blank">Log In</a>　<span><a href="signup.html" target="_blank">Sign Up</a></span></li>
+    </ul>
+    <div>
+        <ul>
+            <li><span><a href="order_info.html" target="_blank">Order Info</a></span></li>
+            <li><span><a href="shopping_cart.html" target="_blank">Shopping Cart</a></span></li>
+            <li><span><a href="customer_service.html" target="_blank">Customer Service</a></span></li>
+        </ul>
+    </div>
+
+    <form action="">
+        <!--searchAutoComplete-->
+        <div>
+            <input type="text" id="autocomplete" />
+            <button type="button">Search</button>
+        </div>
+    </form>
+</div>
+
+
+<div>
+    <div>
+        <h4>Add a new seckill promotion activity</h4>
+    </div>
+    <div>
+        <ul>
+            <li>
+                <div>
+                    <form th:action="@{/addSeckillActivityAction}" method="post">
+                        Seckill Activity Name: <input type="text" name="name"><br><br>
+                        Commodity ID：<input type="text" name="commodityId"><br><br>
+                        Promotion Price：<input type="text" name="seckillPrice"><br><br>
+                        Original Price：<input type="text" name="oldPrice"><br><br>
+                        Number of Promotion Items：<input type="text" name="seckillNumber"><br><br>
+                        Starting Time：<input type="datetime-local" name="startTime" ><br><br>
+                        Ending Time：<input type="datetime-local" name="endTime"><br><br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+</body>
+</html>
