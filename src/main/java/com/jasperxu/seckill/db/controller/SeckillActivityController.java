@@ -24,7 +24,7 @@ public class SeckillActivityController {
     }
 
     @ResponseBody
-    @RequestMapping("/addSeckillActivityAction")
+    @RequestMapping("/addSeckillActivityAction") //@PostMapping
     public String addSeckillActivityAction(
             @RequestParam("name") String name,
             @RequestParam("commodityId") long commodityId,
@@ -34,9 +34,11 @@ public class SeckillActivityController {
             @RequestParam("startTime") String startTime,
             @RequestParam("endTime") String endTime
     ) throws ParseException {
+        // startTime and endTime are initially of the format YYYY-MM-DDThh:mm
         startTime = startTime.substring(0, 10) + startTime.substring(11);
         endTime = endTime.substring(0, 10) + endTime.substring(11);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-ddhh:mm");
+
         SeckillActivity seckillActivity = new SeckillActivity();
         seckillActivity.setName(name);
         seckillActivity.setCommodityId(commodityId);
