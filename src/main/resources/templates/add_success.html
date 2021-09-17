@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>Successfully Created! </title>
+</head>
+
+<body>
+  <div>
+    <ul>
+      <li><a href="login.html" target="_blank">Log In</a>　<span><a href="signup.html" target="_blank">Sign Up</a></span></li>
+    </ul>
+    <div>
+      <ul>
+        <li><span><a href="order_info.html" target="_blank">Order Info</a></span></li>
+        <li><span><a href="shopping_cart.html" target="_blank">Shopping Cart</a></span></li>
+        <li><span><a href="customer_service.html" target="_blank">Customer Service</a></span></li>
+      </ul>
+    </div>
+
+    <form action="">
+      <!--searchAutoComplete-->
+      <div>
+        <input type="text" id="autocomplete" />
+        <button type="button">Search</button>
+      </div>
+    </form>
+  </div>
+
+
+  <!-- TODO: clean this html file -->
+  <div>
+    <h4>Info of Newly Created Seckill Activity</h4>
+  </div>
+  <div>
+    <ul>
+      <style>
+        .dialog-card {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .dialog-card>p {
+          display: flex;
+          flex-direction: row;
+          min-width: 10rem;
+        }
+
+        .dialog-card>p>span {
+          flex-grow: 1;
+          text-align: center;
+        }
+      </style>
+      <div class="dialog-card">
+        <h1>Successfully created a new seckill promotion activity!</h1>
+        <p>Promotion Name：<span th:text="${seckillActivity.name}"></span></p>
+        <p>Original Price：<span th:text="${seckillActivity.oldPrice}"></span></p>
+        <p>Promotion Price：<span th:text="${seckillActivity.seckillPrice}"></span></p>
+        <p>Number of Promotion Items：<span th:text="${seckillActivity.availableStock}"></span></p>
+      </div>
+    </ul>
+  </div>
+
+</body>
+
+</html>
