@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 @Controller
 public class SeckillActivityController {
@@ -23,8 +23,7 @@ public class SeckillActivityController {
         return "add_activity";
     }
 
-    @ResponseBody
-    @RequestMapping("/addSeckillActivityAction") //@PostMapping
+    @RequestMapping("/addSeckillActivityAction")
     public String addSeckillActivityAction(
             @RequestParam("name") String name,
             @RequestParam("commodityId") long commodityId,
@@ -32,7 +31,8 @@ public class SeckillActivityController {
             @RequestParam("oldPrice") BigDecimal oldPrice,
             @RequestParam("seckillNumber") long seckillNumber,
             @RequestParam("startTime") String startTime,
-            @RequestParam("endTime") String endTime
+            @RequestParam("endTime") String endTime,
+            Map<String, Object> resultMap
     ) throws ParseException {
         // startTime and endTime are initially of the format YYYY-MM-DDThh:mm
         startTime = startTime.substring(0, 10) + startTime.substring(11);
@@ -50,7 +50,13 @@ public class SeckillActivityController {
         seckillActivity.setActivityStatus(1);
         seckillActivity.setStartTime(format.parse(startTime));
         seckillActivity.setEndTime(format.parse(endTime));
+
+        // add a new record (seckill promotion activity) to db
         seckillActivityDao.insertSeckillActivity(seckillActivity);
-        return seckillActivity.toString();
+
+        // resultMap is used by add_success.html to render some info of the newly created seckill activity
+        resultMap.put("seckillActivity", seckillActivity);
+
+        return "add_success";
     }
 }
