@@ -1,15 +1,19 @@
 package com.jasperxu.seckill.db.controller;
 
 import com.jasperxu.seckill.db.dao.SeckillActivityDao;
+import com.jasperxu.seckill.db.dao.SeckillCommodityDao;
 import com.jasperxu.seckill.db.po.SeckillActivity;
+import com.jasperxu.seckill.db.po.SeckillCommodity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -17,6 +21,32 @@ public class SeckillActivityController {
 
     @Autowired
     private SeckillActivityDao seckillActivityDao;
+
+    @Autowired
+    private SeckillCommodityDao seckillCommodityDao;
+
+    @RequestMapping("/seckillActivities")
+    public String getAllOngoingSeckillActivities(Map<String, Object> resultMap) {
+        // query all ongoing seckill activities
+        List<SeckillActivity> seckillActivities = seckillActivityDao.querySeckillActivitiesByStatus(1);
+        resultMap.put("seckillActivities", seckillActivities);
+        return "seckill_activity";
+    }
+
+    @RequestMapping("/item/{seckillActivityId}")
+    public String itemPage(Map<String,Object> resultMap,@PathVariable long seckillActivityId){
+        SeckillActivity seckillActivity = seckillActivityDao.querySeckillActivityById(seckillActivityId);
+        SeckillCommodity seckillCommodity = seckillCommodityDao.querySeckillCommodityById(seckillActivity.getCommodityId());
+
+        resultMap.put("seckillActivity",seckillActivity);
+        resultMap.put("seckillCommodity",seckillCommodity);
+        resultMap.put("seckillPrice",seckillActivity.getSeckillPrice());
+        resultMap.put("oldPrice",seckillActivity.getOldPrice());
+        resultMap.put("commodityId",seckillActivity.getCommodityId());
+        resultMap.put("commodityName",seckillCommodity.getCommodityName());
+        resultMap.put("commodityDesc",seckillCommodity.getCommodityDesc());
+        return "seckill_item";
+    }
 
     @RequestMapping("/addSeckillActivity")
     public String addSeckillActivity() {
