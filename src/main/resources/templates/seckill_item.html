@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title>Item Details</title>
+</head>
+
+<body>
+<div>
+	<ul>
+		<li>
+			<a href="login.html" target="_blank">Log In</a>
+		</li>
+		<li>
+			<a href="signup.html" target="_blank">Sign Up</a>
+		</li>
+	</ul>
+	<ul>
+		<li>
+			<a href="order_info.html" target="_blank">Order Info</a>
+		</li>
+		<li>
+			<a href="shopping_cart.html" target="_blank">Shopping Cart</a>
+		</li>
+	</ul>
+	<form action="">
+		<!--searchAutoComplete-->
+		<div>
+			<input type="text" id="autocomplete"/>
+			<button type="button">Search</button>
+		</div>
+	</form>
+</div>
+
+<div>
+	<h4 th:text="${seckillCommodity.commodityName}"></h4>
+</div>
+<div>
+	<span>Black Friday Sale</span>
+	<span>Ends in 01:23:45</span>
+</div>
+<div>
+	<i>Price: </i><em th:text="'$'+${seckillActivity.seckillPrice}"></em>
+	<span>50% OFF</span>
+</div>
+<div>
+	<i>Reviews</i><em> (6121)</em>
+</div>
+<div>
+	<i>Description</i>
+	<span th:text="${seckillCommodity.commodityDesc}"></span>
+</div>
+
+<dl>
+	<dt>
+		<i>Color</i>
+	</dt>
+	<dd><a href="javascript:;">White<span title="Cancel Selection">&nbsp;</span></a></dd>
+	<dd><a href="javascript:;">Grey</a></dd>
+	<dd><a href="javascript:;">Black</a></dd>
+</dl>
+<dl>
+	<dt>
+		<i>Size</i>
+	</dt>
+	<dd><a href="javascript:;">S<span title="Cancel Selection">&nbsp;</span></a></dd>
+	<dd><a href="javascript:;">M</a></dd>
+	<dd><a href="javascript:;">L</a></dd>
+</dl>
+
+<a th:href="'/checkout/' + ${seckillActivity.id}" target="_blank">Buy Now</a>
+
+<ul>
+	<li>
+		<a href="#one" data-toggle="tab"><span>Description</span></a>
+	</li>
+	<li>
+		<a href="#two" data-toggle="tab"><span>Details</span></a>
+	</li>
+	<li>
+		<a href="#three" data-toggle="tab"><span>Reviews</span></a>
+	</li>
+</ul>
+
+<h4>About Us</h4>
+<h4>FAQs</h4>
+<h4>Delivery</h4>
+<h4>Payment</h4>
+<h4>Customer Service</h4>
+<h4>Help Center</h4>
+<h4>Contact Us</h4>
+
+</body>
+</html>
