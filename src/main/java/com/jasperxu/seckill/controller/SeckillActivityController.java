@@ -1,4 +1,4 @@
-package com.jasperxu.seckill.db.controller;
+package com.jasperxu.seckill.controller;
 
 import com.jasperxu.seckill.db.dao.SeckillActivityDao;
 import com.jasperxu.seckill.db.dao.SeckillCommodityDao;
