@@ -21,4 +21,12 @@ public class RedisTest {
         String stock = redisService.getValue("stock:123");
         System.out.println(stock);
     }
+
+    @Test
+    public void validateStockDeductionTest(){
+        boolean result = redisService.validateStockDeduction("stock:123");
+        System.out.println("result: " + result);
+        String stock = redisService.getValue("stock:123");
+        System.out.println("Available stock after deduction: " + stock);
+    }
 }
