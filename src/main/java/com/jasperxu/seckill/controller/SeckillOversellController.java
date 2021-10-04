@@ -29,7 +29,7 @@ public class SeckillOversellController {
     @ResponseBody
     @RequestMapping("/seckill/commodity/{seckillActivityId}")
     public String processSeckillOrder(@PathVariable long seckillActivityId){
-        boolean stockValidationResult = seckillActivityService.validateAndProcessSeckillOrder(seckillActivityId);
+        boolean stockValidationResult = seckillActivityService.validateStock(seckillActivityId);
         if (stockValidationResult) {
             return "Thanks for shopping! Your order has been processed!";
         }
