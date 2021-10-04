@@ -1,5 +1,6 @@
 package com.jasperxu.seckill.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -7,6 +8,7 @@ import redis.clients.jedis.JedisPool;
 import javax.annotation.Resource;
 import java.util.Collections;
 
+@Slf4j
 @Service
 public class RedisService {
     @Resource
@@ -26,7 +28,7 @@ public class RedisService {
     }
 
     public boolean validateStockDeduction(String key) {
-        try(Jedis jedisClient = jedisPool.getResource()) {
+        try (Jedis jedisClient = jedisPool.getResource()) {
             String script =
                     "if redis.call('exists',KEYS[1]) == 1 then\n" +
                     "    local stock = tonumber(redis.call('get', KEYS[1]))\n" +
@@ -40,13 +42,13 @@ public class RedisService {
             Long stock = (Long) jedisClient.eval(script, Collections.singletonList(key), Collections.emptyList());
 
             if (stock < 0) {
-                System.out.println("Stock Unavailable");
+                log.info("No Available Stock");
                 return false;
             }
-            System.out.println("Stock successfully deducted");
+            log.info("Stock successfully deducted");
             return true;
         } catch (Throwable throwable) {
-            System.out.println("Stock deduction failed：" + throwable.toString());
+            log.error("Stock deduction failed：" + throwable.toString());
             return false;
         }
     }
