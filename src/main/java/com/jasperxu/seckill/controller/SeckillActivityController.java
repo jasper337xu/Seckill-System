@@ -1,5 +1,6 @@
 package com.jasperxu.seckill.controller;
 
+import com.jasperxu.seckill.db.dao.OrderDao;
 import com.jasperxu.seckill.db.dao.SeckillActivityDao;
 import com.jasperxu.seckill.db.dao.SeckillCommodityDao;
 import com.jasperxu.seckill.db.po.Order;
@@ -29,6 +30,9 @@ public class SeckillActivityController {
 
     @Resource
     private SeckillCommodityDao seckillCommodityDao;
+
+    @Resource
+    OrderDao orderDao;
 
     @Resource
     SeckillActivityService seckillActivityService;
@@ -104,10 +108,11 @@ public class SeckillActivityController {
      * @param seckillActivityId
      * @return
      */
-    @RequestMapping("/seckill/order/{userId}/{seckillActivityId}")
+    @RequestMapping("/seckill/purchase/{userId}/{seckillActivityId}")
     public ModelAndView seckillCommodity(@PathVariable long userId, @PathVariable long seckillActivityId) {
         boolean stockValidationResult = false;
         ModelAndView modelAndView = new ModelAndView();
+
         try {
             stockValidationResult = seckillActivityService.validateStock(seckillActivityId);
             if (stockValidationResult) {
@@ -123,7 +128,31 @@ public class SeckillActivityController {
             log.error("Seckill System throws exception: " + e.toString());
             modelAndView.addObject("resultInfo","Seckill fails.");
         }
+
         modelAndView.setViewName("seckill_result");
+        return modelAndView;
+    }
+
+    /**
+     * Get order info
+     * @param orderNo
+     * @return
+     */
+    @RequestMapping("/seckill/orderInfo/{orderNo}")
+    public ModelAndView orderInfo(@PathVariable String orderNo) {
+        Order order = orderDao.queryOrder(orderNo);
+        ModelAndView modelAndView = new ModelAndView();
+
+        if (order != null) {
+            modelAndView.setViewName("order_info");
+            modelAndView.addObject("order", order);
+            SeckillActivity seckillActivity = seckillActivityDao.querySeckillActivityById(order.getSeckillActivityId());
+            modelAndView.addObject("seckillActivity", seckillActivity);
+        }
+        else {
+            modelAndView.setViewName("order_wait");
+        }
+
         return modelAndView;
     }
 }
