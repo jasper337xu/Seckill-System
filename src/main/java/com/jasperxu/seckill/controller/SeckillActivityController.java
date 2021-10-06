@@ -155,4 +155,14 @@ public class SeckillActivityController {
 
         return modelAndView;
     }
+
+    /**
+     * Order checkout
+     * @return
+     */
+    @RequestMapping("/seckill/checkout/{orderNo}")
+    public String orderCheckout(@PathVariable String orderNo) throws Exception {
+        seckillActivityService.checkoutProcess(orderNo);
+        return "redirect:/seckill/orderInfo/" + orderNo;
+    }
 }
