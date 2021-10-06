@@ -20,4 +20,6 @@ public interface SeckillActivityMapper {
     List<SeckillActivity> querySeckillActivitiesByStatus(int activityStatus);
 
     int lockStock(Long seckillActivityId);
+
+    int deductStock(Long seckillActivityId);
 }
