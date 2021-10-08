@@ -50,10 +50,18 @@ public class SeckillActivityService {
         order.setSeckillActivityId(seckillActivity.getId());
         order.setUserId(userId);
         order.setOrderAmount(seckillActivity.getSeckillPrice().longValue());
+
         /*
          * 2.Use RocketMQ to send a message of the newly-created order
          */
         rocketMQService.sendMessage("order", JSON.toJSONString(order));
+
+        /*
+         * 3.Use RocketMQ to send a delay message to check payment status of the order.
+         * Consumer won't consume message until the selected delay time period has passed.
+         * If payment status of the order is unpaid at this point, the order will be closed.
+         */
+        rocketMQService.sendDelayMessage("payment_check", JSON.toJSONString(order), 16);
 
         return order;
     }
