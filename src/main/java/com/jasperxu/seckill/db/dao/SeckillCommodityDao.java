@@ -1,6 +1,6 @@
 package com.jasperxu.seckill.db.dao;
 
-import com.jasperxu.seckill.db.po.SeckillCommodity;
+import com.jasperxu.seckill.db.models.SeckillCommodity;
 
 public interface SeckillCommodityDao {
 

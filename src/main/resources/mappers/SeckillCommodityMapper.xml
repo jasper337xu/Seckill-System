@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jasperxu.seckill.db.mappers.SeckillCommodityMapper">
-  <resultMap id="BaseResultMap" type="com.jasperxu.seckill.db.po.SeckillCommodity">
+  <resultMap id="BaseResultMap" type="com.jasperxu.seckill.db.models.SeckillCommodity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
     <result column="commodity_desc" jdbcType="VARCHAR" property="commodityDesc" />
@@ -20,13 +20,13 @@
     delete from seckill_commodity
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jasperxu.seckill.db.po.SeckillCommodity">
+  <insert id="insert" parameterType="com.jasperxu.seckill.db.models.SeckillCommodity">
     insert into seckill_commodity (id, commodity_name, commodity_desc, 
       commodity_price)
     values (#{id,jdbcType=BIGINT}, #{commodityName,jdbcType=VARCHAR}, #{commodityDesc,jdbcType=VARCHAR}, 
       #{commodityPrice,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.jasperxu.seckill.db.po.SeckillCommodity">
+  <insert id="insertSelective" parameterType="com.jasperxu.seckill.db.models.SeckillCommodity">
     insert into seckill_commodity
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -57,7 +57,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jasperxu.seckill.db.po.SeckillCommodity">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jasperxu.seckill.db.models.SeckillCommodity">
     update seckill_commodity
     <set>
       <if test="commodityName != null">
@@ -72,7 +72,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jasperxu.seckill.db.po.SeckillCommodity">
+  <update id="updateByPrimaryKey" parameterType="com.jasperxu.seckill.db.models.SeckillCommodity">
     update seckill_commodity
     set commodity_name = #{commodityName,jdbcType=VARCHAR},
       commodity_desc = #{commodityDesc,jdbcType=VARCHAR},

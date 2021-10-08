@@ -1,6 +1,6 @@
 package com.jasperxu.seckill.db.dao;
 
-import com.jasperxu.seckill.db.po.Order;
+import com.jasperxu.seckill.db.models.Order;
 
 public interface OrderDao {
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jasperxu.seckill.db.mappers.OrderMapper">
-  <resultMap id="BaseResultMap" type="com.jasperxu.seckill.db.po.Order">
+  <resultMap id="BaseResultMap" type="com.jasperxu.seckill.db.models.Order">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
@@ -25,7 +25,7 @@
     delete from seckill_order
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jasperxu.seckill.db.po.Order">
+  <insert id="insert" parameterType="com.jasperxu.seckill.db.models.Order">
     insert into seckill_order (id, order_no, order_status, 
       seckill_activity_id, user_id, order_amount, 
       create_time, pay_time)
@@ -33,7 +33,7 @@
       #{seckillActivityId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{orderAmount,jdbcType=DECIMAL}, 
       #{createTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.jasperxu.seckill.db.po.Order">
+  <insert id="insertSelective" parameterType="com.jasperxu.seckill.db.models.Order">
     insert into seckill_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -88,7 +88,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jasperxu.seckill.db.po.Order">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jasperxu.seckill.db.models.Order">
     update seckill_order
     <set>
       <if test="orderNo != null">
@@ -115,7 +115,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jasperxu.seckill.db.po.Order">
+  <update id="updateByPrimaryKey" parameterType="com.jasperxu.seckill.db.models.Order">
     update seckill_order
     set order_no = #{orderNo,jdbcType=VARCHAR},
       order_status = #{orderStatus,jdbcType=INTEGER},

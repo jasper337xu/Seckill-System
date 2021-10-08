@@ -1,4 +1,4 @@
-package com.jasperxu.seckill.db.po;
+package com.jasperxu.seckill.db.models;
 
 import java.math.BigDecimal;
 import java.util.Date;

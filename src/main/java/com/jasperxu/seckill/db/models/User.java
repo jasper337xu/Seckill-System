@@ -1,4 +1,4 @@
-package com.jasperxu.seckill.db.po;
+package com.jasperxu.seckill.db.models;
 
 public class User {
     private Long id;

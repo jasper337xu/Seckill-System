@@ -1,6 +1,6 @@
 package com.jasperxu.seckill.db.mappers;
 
-import com.jasperxu.seckill.db.po.Order;
+import com.jasperxu.seckill.db.models.Order;
 
 public interface OrderMapper {
     int deleteByPrimaryKey(Long id);

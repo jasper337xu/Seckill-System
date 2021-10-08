@@ -2,7 +2,7 @@ package com.jasperxu.seckill;
 
 import com.jasperxu.seckill.db.dao.SeckillActivityDao;
 import com.jasperxu.seckill.db.mappers.SeckillActivityMapper;
-import com.jasperxu.seckill.db.po.SeckillActivity;
+import com.jasperxu.seckill.db.models.SeckillActivity;
 
 import java.math.BigDecimal;
 import java.util.List;

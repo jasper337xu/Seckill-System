@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jasperxu.seckill.db.mappers.SeckillActivityMapper">
-  <resultMap id="BaseResultMap" type="com.jasperxu.seckill.db.po.SeckillActivity">
+  <resultMap id="BaseResultMap" type="com.jasperxu.seckill.db.models.SeckillActivity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
@@ -28,7 +28,7 @@
     delete from seckill_activity
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jasperxu.seckill.db.po.SeckillActivity">
+  <insert id="insert" parameterType="com.jasperxu.seckill.db.models.SeckillActivity">
     insert into seckill_activity (id, name, commodity_id, 
       old_price, seckill_price, activity_status, 
       start_time, end_time, total_stock, 
@@ -38,7 +38,7 @@
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{totalStock,jdbcType=BIGINT}, 
       #{availableStock,jdbcType=INTEGER}, #{lockStock,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.jasperxu.seckill.db.po.SeckillActivity">
+  <insert id="insertSelective" parameterType="com.jasperxu.seckill.db.models.SeckillActivity">
     insert into seckill_activity
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -111,7 +111,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jasperxu.seckill.db.po.SeckillActivity">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jasperxu.seckill.db.models.SeckillActivity">
     update seckill_activity
     <set>
       <if test="name != null">
@@ -147,7 +147,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jasperxu.seckill.db.po.SeckillActivity">
+  <update id="updateByPrimaryKey" parameterType="com.jasperxu.seckill.db.models.SeckillActivity">
     update seckill_activity
     set name = #{name,jdbcType=VARCHAR},
       commodity_id = #{commodityId,jdbcType=BIGINT},

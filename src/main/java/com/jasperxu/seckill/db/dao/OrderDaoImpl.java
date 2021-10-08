@@ -1,7 +1,7 @@
 package com.jasperxu.seckill.db.dao;
 
 import com.jasperxu.seckill.db.mappers.OrderMapper;
-import com.jasperxu.seckill.db.po.Order;
+import com.jasperxu.seckill.db.models.Order;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;

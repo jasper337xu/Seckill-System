@@ -1,6 +1,6 @@
 package com.jasperxu.seckill.db.mappers;
 
-import com.jasperxu.seckill.db.po.SeckillCommodity;
+import com.jasperxu.seckill.db.models.SeckillCommodity;
 
 public interface SeckillCommodityMapper {
     int deleteByPrimaryKey(Long id);

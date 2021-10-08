@@ -1,7 +1,7 @@
 package com.jasperxu.seckill.db.dao;
 
 import com.jasperxu.seckill.db.mappers.SeckillCommodityMapper;
-import com.jasperxu.seckill.db.po.SeckillCommodity;
+import com.jasperxu.seckill.db.models.SeckillCommodity;
 
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;

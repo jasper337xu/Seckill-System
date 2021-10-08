@@ -1,6 +1,6 @@
 package com.jasperxu.seckill.db.mappers;
 
-import com.jasperxu.seckill.db.po.SeckillActivity;
+import com.jasperxu.seckill.db.models.SeckillActivity;
 
 import java.util.List;
 

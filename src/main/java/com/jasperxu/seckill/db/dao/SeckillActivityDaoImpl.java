@@ -1,7 +1,7 @@
 package com.jasperxu.seckill.db.dao;
 
 import com.jasperxu.seckill.db.mappers.SeckillActivityMapper;
-import com.jasperxu.seckill.db.po.SeckillActivity;
+import com.jasperxu.seckill.db.models.SeckillActivity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.jasperxu.seckill.db.mappers;
 
-import com.jasperxu.seckill.db.po.User;
+import com.jasperxu.seckill.db.models.User;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Long id);

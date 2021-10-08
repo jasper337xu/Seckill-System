@@ -19,7 +19,7 @@
         </javaTypeResolver>
 
         <!-- targetProject: the location where po(persistent object) is generated -->
-        <javaModelGenerator targetPackage="com.jasperxu.seckill.db.po"
+        <javaModelGenerator targetPackage="com.jasperxu.seckill.db.models"
                             targetProject="./src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>

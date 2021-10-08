@@ -3,7 +3,7 @@ package com.jasperxu.seckill.mq;
 import com.alibaba.fastjson.JSON;
 import com.jasperxu.seckill.db.dao.OrderDao;
 import com.jasperxu.seckill.db.dao.SeckillActivityDao;
-import com.jasperxu.seckill.db.po.Order;
+import com.jasperxu.seckill.db.models.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;

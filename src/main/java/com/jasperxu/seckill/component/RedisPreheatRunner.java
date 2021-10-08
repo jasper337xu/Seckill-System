@@ -1,7 +1,7 @@
 package com.jasperxu.seckill.component;
 
 import com.jasperxu.seckill.db.dao.SeckillActivityDao;
-import com.jasperxu.seckill.db.po.SeckillActivity;
+import com.jasperxu.seckill.db.models.SeckillActivity;
 import com.jasperxu.seckill.util.RedisService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
