@@ -61,7 +61,7 @@ public class SeckillActivityService {
          * Consumer won't consume message until the selected delay time period has passed.
          * If payment status of the order is unpaid at this point, the order will be closed.
          */
-        rocketMQService.sendDelayMessage("payment_check", JSON.toJSONString(order), 16);
+        rocketMQService.sendDelayMessage("payment_check", JSON.toJSONString(order), 5);
 
         return order;
     }
