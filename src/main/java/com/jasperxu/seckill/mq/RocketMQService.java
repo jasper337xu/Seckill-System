@@ -20,5 +20,11 @@ public class RocketMQService {
         producer.send(message);
     }
 
-    // public void sendDelayMessage(String topic, String body, int delayTimeLevel) throws Exception
+    public void sendDelayMessage(String topic, String body, int delayTimeLevel) throws Exception {
+        Message message = new Message(topic, body.getBytes());
+        message.setDelayTimeLevel(delayTimeLevel);
+        DefaultMQProducer producer = rocketMQTemplate.getProducer();
+        producer.setSendMsgTimeout(60000);
+        producer.send(message);
+    }
 }
