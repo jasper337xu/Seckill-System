@@ -27,6 +27,9 @@ public class RedisService {
         return value;
     }
 
+    // validateStockDeduction checks if there is available stock by using Redis.
+    // If there is available stock, Redis deducts available stock by 1 and the method returns true.
+    // Otherwise, the method returns false.
     public boolean validateStockDeduction(String key) {
         try (Jedis jedisClient = jedisPool.getResource()) {
             String script =
