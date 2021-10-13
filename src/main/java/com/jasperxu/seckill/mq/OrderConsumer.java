@@ -24,6 +24,7 @@ public class OrderConsumer implements RocketMQListener<MessageExt> {
     @Resource
     private SeckillActivityDao seckillActivityDao;
 
+    @Override
     public void onMessage (MessageExt messageExt) {
         // 1. Parse messages into orders
         String message = new String(messageExt.getBody(), StandardCharsets.UTF_8);
