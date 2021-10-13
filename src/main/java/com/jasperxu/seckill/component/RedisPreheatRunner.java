@@ -26,10 +26,10 @@ public class RedisPreheatRunner implements ApplicationRunner {
             String key = "stock:" + seckillActivity.getId();
             redisService.setValue(key, (long) seckillActivity.getAvailableStock());
             // testing
-            if (key.equals("stock:32")) {
-                Long value = new Long(redisService.getValue("stock:32"));
-                System.out.println("Initially, there are " + value + " stocks available for SeckillActivity 32");
-            }
+//            if (key.equals("stock:32")) {
+//                Long value = new Long(redisService.getValue("stock:32"));
+//                System.out.println("Initially, there are " + value + " stocks available for SeckillActivity 32");
+//            }
         }
     }
 }
