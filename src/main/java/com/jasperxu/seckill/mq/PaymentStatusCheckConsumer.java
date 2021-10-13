@@ -2,6 +2,7 @@ package com.jasperxu.seckill.mq;
 
 import com.alibaba.fastjson.JSON;
 import com.jasperxu.seckill.db.dao.OrderDao;
+import com.jasperxu.seckill.db.dao.SeckillActivityDao;
 import com.jasperxu.seckill.db.models.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageExt;
@@ -19,6 +20,9 @@ public class PaymentStatusCheckConsumer implements RocketMQListener<MessageExt> 
 
     @Resource
     private OrderDao orderDao;
+
+    @Resource
+    private SeckillActivityDao seckillActivityDao;
 
     @Override
     public void onMessage(MessageExt messageExt) {
@@ -45,6 +49,7 @@ public class PaymentStatusCheckConsumer implements RocketMQListener<MessageExt> 
             orderDao.updateOrder(orderInfo);
 
             // 5. Revert the stock
+            seckillActivityDao.revertStock(order.getSeckillActivityId());
 
             // 6. Remove the user from the list of users that have already purchased
         }
