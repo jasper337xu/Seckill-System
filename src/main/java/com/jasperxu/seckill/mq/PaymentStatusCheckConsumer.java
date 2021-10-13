@@ -31,12 +31,22 @@ public class PaymentStatusCheckConsumer implements RocketMQListener<MessageExt> 
         //       because we do not set orderStatus when message is sent to RocketMQ.
         Order orderInfo = orderDao.queryOrder(order.getOrderNo());
 
-        // 2. Check whether the payment of the order has been completed
+        // 2. Check whether the order exists
+        if (orderInfo == null) {
+            log.info("Order is null. Order No. " + order.getOrderNo());
+            return;
+        }
+
+        // 3. Check whether the payment of the order has been completed
         if (orderInfo.getOrderStatus() != 2) {
-            // 3. Payment is not completed, close the order
+            // 4. Payment is not completed, close the order
             log.info("Payment not completed. Order closed. Order No. " + orderInfo.getOrderNo());
             orderInfo.setOrderStatus(99);
             orderDao.updateOrder(orderInfo);
+
+            // 5. Revert the stock
+
+            // 6. Remove the user from the list of users that have already purchased
         }
     }
 }
