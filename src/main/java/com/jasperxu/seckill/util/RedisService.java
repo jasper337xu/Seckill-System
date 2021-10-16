@@ -14,7 +14,7 @@ public class RedisService {
     @Resource
     private JedisPool jedisPool;
 
-    public void setValue(String key, Long value) {
+    public void setValue(String key, Object value) {
         Jedis jedisClient = jedisPool.getResource();
         jedisClient.set(key, value.toString());
         jedisClient.close();
