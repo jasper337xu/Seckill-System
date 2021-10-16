@@ -1,5 +1,6 @@
 package com.jasperxu.seckill.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.jasperxu.seckill.db.dao.OrderDao;
 import com.jasperxu.seckill.db.dao.SeckillActivityDao;
 import com.jasperxu.seckill.db.dao.SeckillCommodityDao;
@@ -7,6 +8,7 @@ import com.jasperxu.seckill.db.models.Order;
 import com.jasperxu.seckill.db.models.SeckillActivity;
 import com.jasperxu.seckill.db.models.SeckillCommodity;
 import com.jasperxu.seckill.service.SeckillActivityService;
+import com.jasperxu.seckill.util.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +39,9 @@ public class SeckillActivityController {
     @Resource
     SeckillActivityService seckillActivityService;
 
+    @Resource
+    RedisService redisService;
+
     @RequestMapping("/seckillActivities")
     public String getAllOngoingSeckillActivities(Map<String, Object> resultMap) {
         // query all ongoing seckill activities
@@ -46,17 +51,39 @@ public class SeckillActivityController {
     }
 
     @RequestMapping("/item/{seckillActivityId}")
-    public String itemPage(Map<String,Object> resultMap,@PathVariable long seckillActivityId){
-        SeckillActivity seckillActivity = seckillActivityDao.querySeckillActivityById(seckillActivityId);
-        SeckillCommodity seckillCommodity = seckillCommodityDao.querySeckillCommodityById(seckillActivity.getCommodityId());
+    public String itemPage(Map<String,Object> resultMap,@PathVariable long seckillActivityId) {
+        SeckillActivity seckillActivity;
+        SeckillCommodity seckillCommodity;
 
-        resultMap.put("seckillActivity",seckillActivity);
-        resultMap.put("seckillCommodity",seckillCommodity);
-        resultMap.put("seckillPrice",seckillActivity.getSeckillPrice());
-        resultMap.put("oldPrice",seckillActivity.getOldPrice());
-        resultMap.put("commodityId",seckillActivity.getCommodityId());
-        resultMap.put("commodityName",seckillCommodity.getCommodityName());
-        resultMap.put("commodityDesc",seckillCommodity.getCommodityDesc());
+        String activityInfo = redisService.getValue("seckillActivity:" + seckillActivityId);
+        if (activityInfo == null || activityInfo.equals("")) {
+            seckillActivity = seckillActivityDao.querySeckillActivityById(seckillActivityId);
+        }
+        else {
+            // Seckill activity has been stored into Redis Cache.
+            // Retrieving from cache is much faster than retrieving from database.
+            log.info("Seckill activity info retrieved from Redis Cache: " + activityInfo);
+            seckillActivity = JSON.parseObject(activityInfo, SeckillActivity.class);
+        }
+
+        String commodityInfo = redisService.getValue("seckillCommodity:" + seckillActivity.getCommodityId());
+        if (commodityInfo == null || commodityInfo.equals("")) {
+            seckillCommodity = seckillCommodityDao.querySeckillCommodityById(seckillActivity.getCommodityId());
+        }
+        else {
+            // Seckill commodity has been stored into Redis Cache.
+            // Retrieving from cache is much faster than retrieving from database.
+            log.info("Seckill commodity info retrieved from Redis Cache: " + commodityInfo);
+            seckillCommodity = JSON.parseObject(commodityInfo, SeckillCommodity.class);
+        }
+
+        resultMap.put("seckillActivity", seckillActivity);
+        resultMap.put("seckillCommodity", seckillCommodity);
+        resultMap.put("seckillPrice", seckillActivity.getSeckillPrice());
+        resultMap.put("oldPrice", seckillActivity.getOldPrice());
+        resultMap.put("commodityId", seckillActivity.getCommodityId());
+        resultMap.put("commodityName", seckillCommodity.getCommodityName());
+        resultMap.put("commodityDesc", seckillCommodity.getCommodityDesc());
         return "seckill_item";
     }
 
