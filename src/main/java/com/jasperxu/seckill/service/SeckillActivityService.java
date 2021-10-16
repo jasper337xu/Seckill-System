@@ -75,17 +75,39 @@ public class SeckillActivityService {
      * Process checking out the order
      * @param orderNo
      */
-    public void checkoutProcess(String orderNo) {
+    public void checkoutProcess(String orderNo) throws Exception {
         Order order = orderDao.queryOrder(orderNo);
-        boolean deductStockResult = seckillActivityDao.deductStock(order.getSeckillActivityId());
-        if (deductStockResult) {
-            log.info("Checkout completed! Order No. " + orderNo);
-            order.setPayTime(new Date());
-            // Order Status 0: No available stock，invalid order
-            //              1: Order created, waiting for checkout
-            //              2: Checkout completed
-            order.setOrderStatus(2);
-            orderDao.updateOrder(order);
+
+        // 1. Check whether the order exists.
+        if (order == null) {
+            log.error("This order does not exist. Order No. " + orderNo);
+            return;
         }
+
+        // NOTE: In reality, we need to connect to third-party payment API to really process the payment.
+
+        // 2. Order payment has been successfully processed.
+        order.setPayTime(new Date());
+        // Order Status 0: No available stock，invalid order
+        //              1: Order created, waiting for checkout
+        //              2: Checkout completed
+        order.setOrderStatus(2);
+        //orderDao.updateOrder(order);
+
+        // 3. Send a message that order payment is completed.
+        rocketMQService.sendMessage("payment_done", JSON.toJSONString(order));
+
+
+
+//        boolean deductStockResult = seckillActivityDao.deductStock(order.getSeckillActivityId());
+//        if (deductStockResult) {
+//            log.info("Checkout completed! Order No. " + orderNo);
+//            order.setPayTime(new Date());
+//            // Order Status 0: No available stock，invalid order
+//            //              1: Order created, waiting for checkout
+//            //              2: Checkout completed
+//            order.setOrderStatus(2);
+//            orderDao.updateOrder(order);
+//        }
     }
 }
