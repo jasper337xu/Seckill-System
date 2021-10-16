@@ -3,8 +3,10 @@ package com.jasperxu.seckill.service;
 import com.alibaba.fastjson.JSON;
 import com.jasperxu.seckill.db.dao.OrderDao;
 import com.jasperxu.seckill.db.dao.SeckillActivityDao;
+import com.jasperxu.seckill.db.dao.SeckillCommodityDao;
 import com.jasperxu.seckill.db.models.Order;
 import com.jasperxu.seckill.db.models.SeckillActivity;
+import com.jasperxu.seckill.db.models.SeckillCommodity;
 import com.jasperxu.seckill.mq.RocketMQService;
 import com.jasperxu.seckill.util.RedisService;
 import com.jasperxu.seckill.util.SnowflakeIdGenerator;
@@ -28,12 +30,15 @@ public class SeckillActivityService {
     private SeckillActivityDao seckillActivityDao;
 
     @Resource
+    private SeckillCommodityDao seckillCommodityDao;
+
+    @Resource
     OrderDao orderDao;
 
     private SnowflakeIdGenerator snowflakeIdGenerator = new SnowflakeIdGenerator(1, 1);
 
     /**
-     * Create an order
+     * Create an order.
      * @param seckillActivityId
      * @param userId
      * @return
@@ -72,7 +77,7 @@ public class SeckillActivityService {
     }
 
     /**
-     * Process checking out the order
+     * Process order checkout.
      * @param orderNo
      */
     public void checkoutProcess(String orderNo) throws Exception {
@@ -96,18 +101,17 @@ public class SeckillActivityService {
 
         // 3. Send a message that order payment is completed.
         rocketMQService.sendMessage("payment_done", JSON.toJSONString(order));
+    }
 
+    /**
+     * Warm up cache: load into Redis Cache the info of seckill activities and commodities.
+     * @param seckillActivityId
+     */
+    public void loadSeckillInfoToRedisCache(long seckillActivityId) {
+        SeckillActivity seckillActivity = seckillActivityDao.querySeckillActivityById(seckillActivityId);
+        redisService.setValue("seckillActivity:" + seckillActivityId, JSON.toJSONString(seckillActivity));
 
-
-//        boolean deductStockResult = seckillActivityDao.deductStock(order.getSeckillActivityId());
-//        if (deductStockResult) {
-//            log.info("Checkout completed! Order No. " + orderNo);
-//            order.setPayTime(new Date());
-//            // Order Status 0: No available stock，invalid order
-//            //              1: Order created, waiting for checkout
-//            //              2: Checkout completed
-//            order.setOrderStatus(2);
-//            orderDao.updateOrder(order);
-//        }
+        SeckillCommodity seckillCommodity = seckillCommodityDao.querySeckillCommodityById(seckillActivity.getCommodityId());
+        redisService.setValue("seckillCommodity:" + seckillActivity.getCommodityId(), JSON.toJSONString(seckillCommodity));
     }
 }
