@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.jasperxu.seckill.db.dao.OrderDao;
 import com.jasperxu.seckill.db.dao.SeckillActivityDao;
 import com.jasperxu.seckill.db.models.Order;
+import com.jasperxu.seckill.util.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
@@ -23,6 +24,9 @@ public class PaymentStatusCheckConsumer implements RocketMQListener<MessageExt> 
 
     @Resource
     private SeckillActivityDao seckillActivityDao;
+
+    @Resource
+    private RedisService redisService;
 
     @Override
     public void onMessage(MessageExt messageExt) {
@@ -48,8 +52,9 @@ public class PaymentStatusCheckConsumer implements RocketMQListener<MessageExt> 
             orderInfo.setOrderStatus(99);
             orderDao.updateOrder(orderInfo);
 
-            // 5. Revert the stock
+            // 5. Revert the stock, update both DB and Redis to ensure data consistency
             seckillActivityDao.revertStock(order.getSeckillActivityId());
+            redisService.revertStock("stock:" + order.getSeckillActivityId());
 
             // 6. Remove the user from the list of users that have already purchased
         }

@@ -55,4 +55,15 @@ public class RedisService {
             return false;
         }
     }
+
+    /**
+     * Revert the stock stored in Redis when payment is not completed within limited time.
+     * (Data consistency between DB and Redis)
+     * @param key
+     */
+    public void revertStock(String key) {
+        Jedis jedisClient = jedisPool.getResource();
+        jedisClient.incr(key);
+        jedisClient.close();
+    }
 }
