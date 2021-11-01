@@ -19,15 +19,15 @@ This project implements an online shopping system that is able to handle a massi
 - ## Data Consistency
   Data consistency among multiple services (order service, payment service and stock service) is guaranteed by the system using distributed transaction. The core idea is that lock the stock when an order is created, and deduct the stock if payment is completed within limited time or revert the stock otherwise.
   ### Workflow
-**1. Create Order**<br/>
+    **1. Create Order**<br/>
      Create an order when a user places an order. Lock the stock. Also send to message queue a delay message that checks whether payment is completed within limited time and handles closing timeout order. <br/>
-**2. Check Out**<br/>
+    **2. Check Out**<br/>
      Call payment API to process the payment. <br/>
-**3. Send a Message of Payment Done**<br/>
+    **3. Send a Message of Payment Done**<br/>
      Send a message to message queue indicating that payment has been completed within limited time. <br/>
-**4. Consume a Message of Payment Done**<br/>
+    **4. Consume a Message of Payment Done**<br/>
      Deduct the stock. Update the order (payment time, order status, etc.) to database. Initiate other services like delivery.<br/>
-**5. Close timeout order**<br/>
+    **5. Close timeout order**<br/>
      Consumes the delay message. If payment is not completed within limited time, close the order and revert the stock.
 
 - ## Reliability and High Availability
@@ -36,8 +36,10 @@ This project implements an online shopping system that is able to handle a massi
 
 - ## Prevention of Overselling
   Stock needs to be guaranteed accurately, that is, we cannot oversell a commodity. For example, if we have 100 stock available, we cannot sell more than 100. The overselling issue would occur if we read available stock directly from database and there were multiple threads running. This issue could be resolved by applying optimistic lock to database, that is, query available stock, check available stock and deduct stock. However, if we read from and write to database for every request, database will break down when there are massive amount of requests sent to the system (explained above). Lua Scripting supported by Redis is a better solution to prevent overselling.
-  
-  Redis Lua Scripting ...
+  ###Solution
+    **1.** Cache the stock information to protect database from crashing due to a large number of requests.<br/>
+    **2.** Checking and deducting stock stored in Redis cache are two operations. Use Lua scripts to combine the two operations into one, which guarantees atomicity. This ensures the accuracy of the stock and prevent overselling in high concurrency environment.<br/>
+    **3.** At the time of creating an order, database will double-check the stock (stored in database) to reconfirm that there is available stock to prevent overselling.
 
 # Bottleneck
 ### Data Consistency Between Cache and Database
