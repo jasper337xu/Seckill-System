@@ -1,5 +1,5 @@
 # Description
-This project implements an online shopping system that is able to handle a massive amount of traffic and high concurrency. The system guarantees data consistency, reliability and high availability. Use cases include Black Friday, Boxing Day, Cyber Monday, etc. during which an online shopping system needs to handle much more requests than ususal.
+This project implements an online shopping system that can handle a massive amount of traffic and high concurrency. The system guarantees data consistency, reliability and high availability. Use cases include Black Friday, Boxing Day, Cyber Monday, etc. during which an online shopping system needs to handle much more requests than ususal.
 
 # Design Diagram
 ![alt text](https://github.com/jasper337xu/Seckill-System/blob/master/doc/image/Design_Diagram.jpg?raw=true)
