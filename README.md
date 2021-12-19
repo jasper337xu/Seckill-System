@@ -5,7 +5,7 @@ This project implements an online shopping system that can handle a massive amou
 ![alt text](https://github.com/jasper337xu/Seckill-System/blob/master/doc/image/Design_Diagram.jpg?raw=true)
 
 # Key Points
-- ## Massive Amount of Requests
+- ## Large Number of Requests
   ### 1. Asynchronous Processing with Message Queue
   When a user submits an order, we would like to write the newly-created order to database. However, database is not able to handle a large number of writes at the same time (can only handle approx. 1000 QPS). Hence, when a large number of orders are submitted by users at the same time, writing to database directly would cause database to crash. 
   
@@ -38,7 +38,7 @@ This project implements an online shopping system that can handle a massive amou
   Stock needs to be guaranteed accurately, that is, we cannot oversell a commodity. For example, if we have 100 stock available, we cannot sell more than 100. The overselling issue would occur if we read available stock directly from database and there were multiple threads running. This issue could be resolved by applying optimistic lock to database, that is, query available stock, check available stock and deduct stock. However, if we read from and write to database for every request, database will break down when there are massive amount of requests sent to the system (explained above). Lua Scripting supported by Redis is a better solution to prevent overselling.
   ### Solution
     **1.** Cache the stock information to protect database from crashing due to a large number of requests.<br/>
-    **2.** Checking and deducting stock stored in Redis cache are two operations. Use Lua scripts to combine the two operations into one, which guarantees atomicity. This ensures the accuracy of the stock and prevent overselling in high concurrency environment.<br/>
+    **2.** Checking and deducting stock stored in Redis cache are two operations. Use Lua scripts to combine the two operations into one, which guarantees atomicity. This ensures the accuracy of the stock and prevents overselling in high concurrency environment.<br/>
     **3.** At the time of creating an order, database will double-check the stock (stored in database) to reconfirm that there is available stock to prevent overselling.
 
 # Bottleneck
